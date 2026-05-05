@@ -1,98 +1,64 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
-export default function HomeScreen() {
+export default function App() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView style={styles.container}>
+      {/* Header Section */}
+      <View style={styles.header}>
+        <Text style={styles.logoText}>HomePro</Text>
+        <Text style={styles.location}>Chicago, IL • North Park</Text>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* Search Bar */}
+      <View style={styles.searchSection}>
+        <TextInput 
+          style={styles.input}
+          placeholder="Search for cleaning, repair..."
+        />
+      </View>
+
+      {/* Main Services */}
+      <Text style={styles.sectionTitle}>Main Services</Text>
+      <View style={styles.servicesGrid}>
+        <ServiceIcon title="Plumbing" />
+        <ServiceIcon title="Electric" />
+        <ServiceIcon title="Cleaning" />
+        <ServiceIcon title="HVAC" />
+      </View>
+
+      {/* Banner Section */}
+      <View style={styles.banner}>
+        <Text style={styles.bannerText}>Deep Clean your home for only $99</Text>
+        <TouchableOpacity style={styles.bannerButton}>
+          <Text style={styles.buttonText}>Book Expert Now</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
+const ServiceIcon = ({ title }: any) => (
+  <View style={styles.iconBox}>
+    <View style={styles.iconCircle}></View>
+    <Text style={styles.iconLabel}>{title}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  container: { flex: 1, backgroundColor: '#fff', padding: 20 },
+  header: { marginTop: 40, marginBottom: 20 },
+  logoText: { fontSize: 24, fontWeight: 'bold', color: '#1a237e' },
+  location: { fontSize: 14, color: '#666' },
+  searchSection: { marginBottom: 20 },
+  input: { backgroundColor: '#f0f0f0', padding: 15, borderRadius: 10 },
+  sectionTitle: { fontSize: 18, fontWeight: 'bold', marginVertical: 10 },
+  servicesGrid: { flexDirection: 'row', justifyContent: 'space-between' },
+  banner: { backgroundColor: '#3f51b5', padding: 20, borderRadius: 15, marginVertical: 20 },
+  bannerText: { color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 10 },
+  bannerButton: { backgroundColor: '#fff', padding: 10, borderRadius: 20, width: 150 },
+  buttonText: { textAlign: 'center', color: '#3f51b5', fontWeight: 'bold' },
+  iconBox: { alignItems: 'center' },
+  iconCircle: { width: 50, height: 50, backgroundColor: '#e8eaf6', borderRadius: 10 },
+  iconLabel: { fontSize: 12, marginTop: 5 }
 });
